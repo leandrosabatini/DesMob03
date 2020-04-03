@@ -3,10 +3,16 @@ import { FlatList, StyleSheet, Text, View, TextInput, Button, ScrollView } from 
 
 import ContatoItem from './components/ContatoItem';
 import ContatoInput from './components/ContatoInput';
+import Cartao from './components/Cartao';
+
+import medidas from './medidas/medidas';
 
 const styles = StyleSheet.create({
     telaPrincipalView: {
-        padding: 50
+        padding: medidas.GRANDE
+    },
+    cartao: {
+        margin: medidas.GRANDE
     }
 });
 
@@ -45,12 +51,14 @@ export default function App() {
                 data={contatos}
                 renderItem={
                     contato => (
-                        <ContatoItem
-                            chave={contato.item.key}
-                            nome={contato.item.nome}
-                            celular={contato.item.celular}
-                            onDelete={removerContato}
-                        />
+                        <Cartao estilos={styles.contatoItem}>
+                            <ContatoItem
+                                chave={contato.item.key}
+                                nome={contato.item.nome}
+                                celular={contato.item.celular}
+                                onDelete={removerContato}
+                            />
+                        </Cartao>
                     )
                 }
             />

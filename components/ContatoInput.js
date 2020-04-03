@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import {View, TextInput, Button, StyleSheet} from 'react-native'
 
+import cores from '../cores/cores'
+import medidas from '../medidas/medidas';
+
 const ContatoInput = (props) => {
     const [nome, setNome] = useState('');
     const [celular, setCelular] = useState('');
@@ -49,20 +52,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 8
+        marginBottom: medidas.PEQUENO
     },
     nomeInputText: {
-        width: '80%',
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
-        padding: 2,
-        marginBottom: 20
+        width: medidas.GRANDEPORCENTAGEM,
+        borderBottomColor: cores.PRETO,
+        borderBottomWidth: medidas.MINIMO,
+        padding: medidas.PEQUENO,
+        marginBottom: medidas.MEDIO
     },
     telefoneInputText: {
-        width: '80%',
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
-        padding: 2
+        width: medidas.GRANDEPORCENTAGEM,
+        borderBottomColor: cores.PRETO,
+        borderBottomWidth: medidas.MINIMO,
+        padding: medidas.PEQUENO,
+        marginBottom: medidas.MEDIO
     }
 });
 

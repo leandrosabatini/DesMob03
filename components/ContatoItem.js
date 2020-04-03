@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
+import cores from '../cores/cores'
+import medidas from '../medidas/medidas';
+
 const ContatoItem = (props) =>{
     return (
         <TouchableOpacity onLongPress={props.onDelete.bind(this, props.chave)}>
@@ -15,12 +18,12 @@ const ContatoItem = (props) =>{
 
 const styles = StyleSheet.create({
     itemNaLista: {
-        padding: 12,
-        backgroundColor: '#CCC',
-        borderColor: '#000',
-        borderWidth: 1,
-        marginBottom: 8,
-        borderRadius: 8
+        padding: medidas.PEQUENO,
+        backgroundColor: cores.CINZA,
+        borderColor: cores.PRETO,
+        borderWidth: medidas.MINIMO,
+        marginBottom: medidas.PEQUENO,
+        borderRadius: medidas.PEQUENO
     }
 });
 
