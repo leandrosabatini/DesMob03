@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
+import {
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Button,
+    TouchableOpacity,
+    Alert,
+    ScrollView
+} from 'react-native';
 
 import ContatoItem from './components/ContatoItem';
 import ContatoInput from './components/ContatoInput';
@@ -17,15 +27,36 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
+    const [contatoVisualizado, setContatoVisualizado] = useState(null);
+    const [isEditando, setIsEditando] = useState(false);
+
     const [contatos, setContatos] = useState('');
     const [contadorContatos, setContadorcontatos] = useState(10);
 
     const removerContato = (keyToRemove) => {
-        setContatos (contatos => {
-            return contatos.filter((contato) => {
-                return contato.key !== keyToRemove
-            })
-        });
+        Alert.alert(
+            'Remover contato ' + keyToRemove + '?',
+            '',
+            [
+                {
+                    text: 'Não'
+                },
+                {
+                    text: 'Sim',
+                    onPress: () => {
+                        setContatos (contatos => {
+                            return contatos.filter((contato) => {
+                                return contato.key !== keyToRemove
+                            })
+                        });
+                    }
+                }
+            ]
+        )
+    };
+
+    const verContato = (contato) => {
+        setContatoVisualizado(contato);
     };
 
     const adicionarContato = (nome, celular) => {
@@ -39,29 +70,78 @@ export default function App() {
                     celular: celular
                 }
             ];
-        } );
+        });
+    }
+
+    const editarContato = (nome, celular) => {
+        var contatosAtuais = contatos;
+
+        var itemNovo = false;
+
+        contatosAtuais.forEach((item) => {
+            if (item.key == contatoVisualizado.key) {
+                item.nome = nome
+                item.celular = celular
+
+                itemNovo = item;
+            }
+        })
+
+        setIsEditando(false);
+        setContatoVisualizado(null);
     }
 
     return (
-        <View style={styles.telaPrincipalView}>
-            <View>
-                <ContatoInput onAdicionarContato={adicionarContato} />
-            </View>
-            <FlatList
-                data={contatos}
-                renderItem={
-                    contato => (
-                        <Cartao estilos={styles.contatoItem}>
-                            <ContatoItem
-                                chave={contato.item.key}
-                                nome={contato.item.nome}
-                                celular={contato.item.celular}
-                                onDelete={removerContato}
-                            />
-                        </Cartao>
-                    )
-                }
-            />
+        <View>
+            {contatoVisualizado ? (
+                <View style={styles.telaPrincipalView}>
+                    <TouchableOpacity onPress={() => {
+                        setIsEditando(false)
+                        setContatoVisualizado(null)
+                    }}>
+                        <View>
+                            <Text>Voltar para a listagem</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {isEditando ? (
+                        <View>
+                            <ContatoInput onAdicionarContato={editarContato} isEditando={true} />
+                        </View>
+                    ) : (<View></View>)}
+                    <Cartao estilos={styles.contatoItem}>
+                        <ContatoItem
+                            contato={contatoVisualizado}
+                            onPress={verContato}
+                            onDelete={removerContato}
+                        />
+                    </Cartao>
+                    <TouchableOpacity onPress={() => {setIsEditando(true)}}>
+                        <View>
+                            <Text>Editar</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            ) : (
+                <View style={styles.telaPrincipalView}>
+                    <View>
+                        <ContatoInput onAdicionarContato={adicionarContato} isEditando={false} />
+                    </View>
+                    <FlatList
+                        data={contatos}
+                        renderItem={
+                            contato => (
+                                <Cartao estilos={styles.contatoItem}>
+                                    <ContatoItem
+                                        contato={contato.item}
+                                        onPress={verContato}
+                                        onDelete={removerContato}
+                                    />
+                                </Cartao>
+                            )
+                        }
+                    />
+                </View>
+            )}
         </View>
     );
 }

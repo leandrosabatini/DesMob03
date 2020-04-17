@@ -34,12 +34,14 @@ const ContatoInput = (props) => {
                     value={celular}
                 />
                 <Button
-                    title="+"
+                    title={props.isEditando ? "salvar" : '+'}
                     onPress={() => {
                         props.onAdicionarContato(nome, celular)
 
-                        setNome('');
-                        setCelular('');
+                        if (!props.isEditando) {
+                            setNome('');
+                            setCelular('');
+                        }
                     }}
                 />
             </View>
