@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import cores from '../cores/cores'
+import cores from '../constantes/Cores'
 import medidas from '../medidas/medidas';
 
 const ContatoItem = (props) =>{

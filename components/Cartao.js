@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import cores from '../cores/cores'
+import cores from '../constantes/Cores'
 import medidas from '../medidas/medidas'
 
 const Cartao = (props) => {
