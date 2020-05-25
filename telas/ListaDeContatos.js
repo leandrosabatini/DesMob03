@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     FlatList,
     StyleSheet,
@@ -20,7 +20,8 @@ import BotaoCabecalho from '../components/BotaoCabecalho'
 
 import medidas from '../medidas/medidas';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as contatosActions from '../store/contatos-actions';
 
 const styles = StyleSheet.create({
     telaPrincipalView: {
@@ -35,10 +36,15 @@ const ListaDeContatos = (props) => {
     const [contatoVisualizado, setContatoVisualizado] = useState(null);
     const [isEditando, setIsEditando] = useState(false);
     const contatos = useSelector(estado => estado.contatos.contatos);
+    const dispatch = useDispatch();
 
-    const removerContato = (keyToRemove) => {
+    useEffect(() => {
+        dispatch(contatosActions.listarContatos())
+    }, [dispatch]);
+
+    const removerContato = (idToRemove) => {
         Alert.alert(
-            'Remover contato ' + keyToRemove + '?',
+            'Remover contato ' + idToRemove + '?',
             '',
             [
                 {
@@ -49,7 +55,7 @@ const ListaDeContatos = (props) => {
                     onPress: () => {
                         setContatos (contatos => {
                             return contatos.filter((contato) => {
-                                return contato.key !== keyToRemove
+                                return contato.id !== idToRemove
                             })
                         });
                     }
@@ -70,7 +76,7 @@ const ListaDeContatos = (props) => {
             return [
                 ...contatos,
                 {
-                    key: contadorContatos.toString(),
+                    id: contadorContatos.toString(),
                     nome: nome,
                     celular: celular
                 }
@@ -84,7 +90,7 @@ const ListaDeContatos = (props) => {
         var itemNovo = false;
 
         contatosAtuais.forEach((item) => {
-            if (item.key == contatoVisualizado.key) {
+            if (item.id == contatoVisualizado.id) {
                 item.nome = nome
                 item.celular = celular
 
@@ -130,7 +136,7 @@ const ListaDeContatos = (props) => {
                 <View style={styles.telaPrincipalView}>
                     <FlatList
                         data={contatos}
-                        keyExtractor={contato => contato.key}
+                        keyExtractor={contato => contato.id}
                         renderItem={
                             contato => (
                                 <Cartao estilos={styles.contatoItem}>

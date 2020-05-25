@@ -7,7 +7,7 @@ import DetalheDoContato from '../telas/DetalhesDoContato'
 import ListaDeContatos from '../telas/ListaDeContatos'
 import NovoContato from '../telas/NovoContato'
 
-const LugaresNavigator = createStackNavigator({
+const ContatosNavigator = createStackNavigator({
     ListaDeContatos: ListaDeContatos,
     DetalheDoContato: DetalheDoContato,
     NovoContato: NovoContato
@@ -20,4 +20,4 @@ const LugaresNavigator = createStackNavigator({
     }
 });
 
-export default createAppContainer(LugaresNavigator);
+export default createAppContainer(ContatosNavigator);

@@ -4,6 +4,14 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import contatosReducer from './store/contatos-reducer';
+import { init } from './helpers/db';
+
+init().then(() => {
+    console.log("Criação da base ocorreu com sucesso.");
+}).catch((err) => {
+    console.log('Criação da base falhou.');
+    console.log(err);
+});
 
 const rootReducer = combineReducers({
     contatos: contatosReducer

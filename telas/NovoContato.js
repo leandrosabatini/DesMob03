@@ -11,14 +11,14 @@ const NovoContato = (props) => {
     const contatos = useSelector(estado => estado.contatos.contatos);
 
     const adicionarContato = (nome, celular, foto) => {
-        var lastKey = 8;
+        var lastId = 8;
         contatos.forEach((item) => {
-            if (item.key > lastKey) {
-                lastKey = item.key;
+            if (item.id > lastId) {
+                lastId = item.id;
             }
         })
 
-        dispatch(contatosActions.addContato(parseInt(lastKey) + 2, nome, celular, foto));
+        dispatch(contatosActions.addContato(parseInt(lastId) + 2, nome, celular, foto));
         props.navigation.goBack();
     }
 

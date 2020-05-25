@@ -65,6 +65,7 @@ const DetalhesDoContato = (props) => {
                     <>
                     </>
                 )}
+                <Text>ID: {contato.id}</Text>
                 <Text>Nome: {contato.nome}</Text>
                 <Text>Celular: {contato.celular}</Text>
             </View>
@@ -76,7 +77,7 @@ DetalhesDoContato.navigationOptions = dadosNav => {
     var contato = dadosNav.navigation.getParam('contato');
 
     return {
-        headerTitle: contato.key + ' - ' + contato.nome,
+        headerTitle: contato.id + ' - ' + contato.nome,
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={BotaoCabecalho}>
                 <Item
