@@ -16,7 +16,7 @@ export const listarContatos = () => {
     }
 };
 
-export const addContato = (id, nome, celular, foto) => {
+export const addContato = (id, nome, celular, foto, lat, lng, createdAt) => {
     return async dispatch => {
         var novoPath = '';
         if (typeof foto !== 'undefined') {
@@ -39,9 +39,11 @@ export const addContato = (id, nome, celular, foto) => {
             id,
             nome,
             celular,
-            foto
+            foto,
+            lat,
+            lng,
+            createdAt
         );
-        console.log(resultadoDB);
 
         dispatch({
             type: ADD_CONTATO,
@@ -49,7 +51,10 @@ export const addContato = (id, nome, celular, foto) => {
                 id: id,
                 nome: nome,
                 celular: celular,
-                foto: novoPath
+                foto: novoPath,
+                lat: lat,
+                lng: lng,
+                createdAt: createdAt
             }
         })
     }

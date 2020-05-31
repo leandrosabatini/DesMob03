@@ -11,10 +11,10 @@ export default (estado = estadoInicial, action) => {
     switch (action.type) {
         case LISTA_CONTATOS:
             return {
-                contatos: action.contatos.map(l => new Contato(l.id.toString(), l.nome, l.celular, l.foto))
+                contatos: action.contatos.map(l => new Contato(l.id.toString(), l.nome, l.celular, l.foto, l.lat, l.lng, l.createdAt))
             }
         case ADD_CONTATO:
-            const c = new Contato(dadosContato.id, dadosContato.nome, dadosContato.celular, dadosContato.foto);
+            const c = new Contato(dadosContato.id, dadosContato.nome, dadosContato.celular, dadosContato.foto, dadosContato.lat. dadosContato.lng, dadosContato.createdAt);
 
             return {
                 contatos: estado.contatos.concat(c)

@@ -1,12 +1,12 @@
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabase("contatos.db");
+const db = SQLite.openDatabase("contatos4.db");
 
 export const init = () => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS contato (id INTEGER PRIMARY KEY, nome TEXT, celular TEXT, foto TEXT);',
+                'CREATE TABLE IF NOT EXISTS contato (id INTEGER PRIMARY KEY, nome TEXT, celular TEXT, foto TEXT, lat TEXT, lng TEXT, createdAt TEXT);',
                 [],
                 () => {
                     resolve()
@@ -21,16 +21,19 @@ export const init = () => {
     return promise;
 }
 
-export const inserirContato = (id, nome, celular, foto) => {
+export const inserirContato = (id, nome, celular, foto, lat, lng, createdAt) => {
     const promise = new Promise((resolve, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
-                'INSERT INTO contato (id, nome, celular, foto) VALUES (?, ?, ?, ?)',
+                'INSERT INTO contato (id, nome, celular, foto, lat, lng, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 [
                     id,
                     nome,
                     celular,
-                    foto
+                    foto,
+                    lat,
+                    lng,
+                    createdAt
                 ],
                 (_, resultado) => {
                     resolve(resultado)

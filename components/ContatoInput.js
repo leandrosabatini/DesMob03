@@ -4,11 +4,14 @@ import TiraFoto from './TiraFoto';
 
 import cores from '../constantes/Cores'
 import medidas from '../medidas/medidas';
+import CapturaLocalizacao from './CapturaLocalizacao';
 
 const ContatoInput = (props) => {
     const [nome, setNome] = useState('');
     const [celular, setCelular] = useState('');
     const [imagemURI, setImagemURI] = useState();
+    const [lat, setLat] = useState('');
+    const [lng, setLng] = useState('');
 
     const capturarNome = (nome) => {
         setNome(nome)
@@ -43,11 +46,18 @@ const ContatoInput = (props) => {
             <View style={styles.contatoView}>
                 <TiraFoto onFotoTirada={capturarImagem} />
             </View>
+            <CapturaLocalizacao
+                handleLocalizacao={(lat, lng) => {
+                    setLat(lat);
+                    setLng(lng);
+                    
+                }}
+            />
             <View style={styles.contatoView}>
                 <Button
                     title={'Adicionar'}
                     onPress={() => {
-                        props.onAdicionarContato(nome, celular, imagemURI)
+                        props.onAdicionarContato(nome, celular, imagemURI, lat, lng)
                     }}
                 />
             </View>

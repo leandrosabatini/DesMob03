@@ -13,7 +13,7 @@ import {
     ScrollView
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-
+import PreviewDoMapa from '../components/PreviewDoMapa'
 import ContatoItem from '../components/ContatoItem';
 import ContatoInput from '../components/ContatoInput';
 import Cartao from '../components/Cartao';
@@ -44,6 +44,15 @@ const styles = StyleSheet.create({
     imagem: {
         width: '100%',
         height: '100%'
+    },
+    previewDoMapa: {
+        marginBottom: 10,
+        width: '100%',
+        height: 150,
+        borderColor: '#DDD',
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 
@@ -68,6 +77,15 @@ const DetalhesDoContato = (props) => {
                 <Text>ID: {contato.id}</Text>
                 <Text>Nome: {contato.nome}</Text>
                 <Text>Celular: {contato.celular}</Text>
+                <Text>Cadastrado em: {contato.createdAt}</Text>
+                <Text>Localização:</Text>
+                <PreviewDoMapa
+                    style={styles.previewDoMapa}
+                    localizacao={{
+                        lat: contato.lat,
+                        lng: contato.lng
+                    }}
+                />
             </View>
         </View>
     );
