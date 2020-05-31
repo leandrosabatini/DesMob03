@@ -22,6 +22,15 @@ import medidas from '../medidas/medidas';
 
 import { useSelector, useDispatch } from 'react-redux';
 import * as contatosActions from '../store/contatos-actions';
+import * as firebase from 'firebase';
+import ENV from '../env';
+import 'firebase/firestore';
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(ENV.firebaseConfig);
+}
+
+const db = firebase.firestore()
 
 const styles = StyleSheet.create({
     telaPrincipalView: {
@@ -35,11 +44,17 @@ const styles = StyleSheet.create({
 const ListaDeContatos = (props) => {
     const [contatoVisualizado, setContatoVisualizado] = useState(null);
     const [isEditando, setIsEditando] = useState(false);
-    const contatos = useSelector(estado => estado.contatos.contatos);
+    const [contatos, setContatos] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(contatosActions.listarContatos())
+        db.collection('contatos').onSnapshot((snapshot) => {
+            let aux = [];
+            snapshot.forEach(doc => {
+                aux.push(doc.data());
+            });
+            setContatos(aux);
+        });
     }, [dispatch]);
 
     const removerContato = (idToRemove) => {
@@ -53,7 +68,7 @@ const ListaDeContatos = (props) => {
                 {
                     text: 'Sim',
                     onPress: () => {
-                        setContatos (contatos => {
+                        setContatos(contatos => {
                             return contatos.filter((contato) => {
                                 return contato.id !== idToRemove
                             })
@@ -126,31 +141,31 @@ const ListaDeContatos = (props) => {
                             onDelete={removerContato}
                         />
                     </Cartao>
-                    <TouchableOpacity onPress={() => {setIsEditando(true)}}>
+                    <TouchableOpacity onPress={() => { setIsEditando(true) }}>
                         <View>
                             <Text>Editar</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
             ) : (
-                <View style={styles.telaPrincipalView}>
-                    <FlatList
-                        data={contatos}
-                        keyExtractor={contato => contato.id}
-                        renderItem={
-                            contato => (
-                                <Cartao estilos={styles.contatoItem}>
-                                    <ContatoItem
-                                        contato={contato.item}
-                                        onPress={verContato}
-                                        onDelete={removerContato}
-                                    />
-                                </Cartao>
-                            )
-                        }
-                    />
-                </View>
-            )}
+                    <View style={styles.telaPrincipalView}>
+                        <FlatList
+                            data={contatos}
+                            keyExtractor={contato => contato.id}
+                            renderItem={
+                                contato => (
+                                    <Cartao estilos={styles.contatoItem}>
+                                        <ContatoItem
+                                            contato={contato.item}
+                                            onPress={verContato}
+                                            onDelete={removerContato}
+                                        />
+                                    </Cartao>
+                                )
+                            }
+                        />
+                    </View>
+                )}
         </View>
     );
 }

@@ -6,6 +6,10 @@ import reduxThunk from 'redux-thunk';
 import contatosReducer from './store/contatos-reducer';
 import { init } from './helpers/db';
 
+import {decode, encode} from 'base-64'
+if (!global.btoa) {  global.btoa = encode }
+if (!global.atob) { global.atob = decode }
+
 init().then(() => {
     console.log("Criação da base ocorreu com sucesso.");
 }).catch((err) => {
